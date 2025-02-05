@@ -1,9 +1,13 @@
 import React from "react";
 
-function EmailTile({email, toggleStar, toggleRead}) {
+function EmailTile({email, toggleStar, toggleRead, setCurrentEmail, currentEmail}) {
+    const handleClick = () => {
+        setCurrentEmail(email)
+    }
     return (
         <li
             className={`email ${email.read ? 'read' : 'unread'}`}
+            onClick={handleClick}
         >
             <div className="select">
                 <input

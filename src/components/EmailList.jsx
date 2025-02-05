@@ -1,7 +1,7 @@
 import React from "react";
 import EmailTile from "./EmailTile";
 
-function EmailList({filteredEmails, toggleStar, toggleRead, currentTab, hideRead}) {
+function EmailList({filteredEmails, toggleStar, toggleRead, setCurrentEmail, currentEmail}) {
   return (
     <main className="emails">
         <ul>
@@ -10,7 +10,10 @@ function EmailList({filteredEmails, toggleStar, toggleRead, currentTab, hideRead
             key={index}
             email={email}
             toggleStar={toggleStar}
-            toggleRead={toggleRead}/>
+            toggleRead={toggleRead}
+            setCurrentEmail={setCurrentEmail}
+            currentEmail={currentEmail}
+            />
           ))}
         </ul>
       </main>)

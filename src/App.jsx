@@ -6,6 +6,7 @@ import './styles/App.css'
 import Header from './components/Header'
 import Navbar from './components/Navbar'
 import EmailList from './components/EmailList'
+import EmailContent from './components/EmailContent'
 
 const getReadEmails = emails => emails.filter(email => !email.read)
 
@@ -15,6 +16,9 @@ function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
   const [currentTab, setCurrentTab] = useState('inbox')
+  const [currentEmail, setCurrentEmail] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
+
 
   const unreadEmails = emails.filter(email => !email.read)
   const starredEmails = emails.filter(email => email.starred)
@@ -27,6 +31,10 @@ function App() {
           : email
       )
     setEmails(updatedEmails)
+  }
+
+  const getFilteredEmails = () =>{
+    return emails.filter(email => email.title.toLowerCase().includes(searchTerm.toLowerCase()))
   }
 
   const toggleRead = targetEmail => {
@@ -44,9 +52,14 @@ function App() {
   if (currentTab === 'starred')
     filteredEmails = getStarredEmails(filteredEmails)
 
+  filteredEmails = getFilteredEmails()
+
   return (
     <div className="app">
-      <Header />
+      <Header 
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      />
       <Navbar setHideRead={setHideRead}
       setCurrentTab={setCurrentTab}
       currentTab={currentTab}
@@ -54,13 +67,25 @@ function App() {
       starredEmails={starredEmails}
       hideRead={hideRead}
       />
-      <EmailList 
-      filteredEmails={filteredEmails}
-      toggleStar={toggleStar}
-      toggleRead={toggleRead}
-      currentTab={currentTab}
-      hideRead={hideRead}
-      ></EmailList>
+      {currentEmail ? (
+        <>
+        <EmailContent
+        currentEmail={currentEmail}
+        setCurrentEmail={setCurrentEmail}
+        ></EmailContent>
+        </>
+      ) : (
+        <EmailList 
+          filteredEmails={filteredEmails}
+          toggleStar={toggleStar}
+          toggleRead={toggleRead}
+          currentTab={currentTab}
+          hideRead={hideRead}
+          setCurrentEmail={setCurrentEmail}
+          currentEmail={currentEmail}
+        />
+      )}
+      
     </div>
   )
 }

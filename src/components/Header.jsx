@@ -1,6 +1,6 @@
 import React from "react";
 
-function Header() {
+function Header({setSearchTerm, searchTerm}) {
     
 
     return (
@@ -17,7 +17,12 @@ function Header() {
         </div>
 
         <div className="search">
-          <input className="search-bar" placeholder="Search mail" />
+          <input
+            type="text"
+            placeholder="Search mail"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchTerm}
+          />
         </div>
       </header>
     )
